@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autoencoder Image Compression Lab</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="tag">DEEP LEARNING MINI PROJECT</div>
+    <h1>Autoencoder Image Compression</h1>
+    <p>Explore how latent-space dimensions affect image compression and reconstruction quality.</p>
+    <a class="primary" href="#lab">Try the demo <span>↓</span></a>
+  </header>
+
+  <main>
+    <section class="intro panel">
+      <div>
+        <p class="eyebrow">PROJECT OVERVIEW</p>
+        <h2>Compress. Reconstruct. Compare.</h2>
+        <p>An autoencoder learns a compact representation of an image and then reconstructs it. A smaller latent space usually means stronger compression, but may lose more visual detail.</p>
+      </div>
+      <div class="flow">
+        <div class="flow-box"><span>01</span><strong>Input image</strong><small>Original pixels</small></div>
+        <div class="arrow">→</div>
+        <div class="flow-box accent"><span>02</span><strong>Encoder</strong><small>Compress features</small></div>
+        <div class="arrow">→</div>
+        <div class="flow-box accent"><span>03</span><strong>Latent space</strong><small>Compact code</small></div>
+        <div class="arrow">→</div>
+        <div class="flow-box"><span>04</span><strong>Decoder</strong><small>Rebuild image</small></div>
+      </div>
+    </section>
+
+    <section id="lab" class="lab-grid">
+      <div class="panel controls">
+        <p class="eyebrow">INTERACTIVE DEMO</p>
+        <h2>Compression lab</h2>
+        <p class="muted">Upload an image and change the latent dimension to preview the compression-quality trade-off.</p>
+        <label class="upload" for="imageInput"><span class="upload-icon">↑</span><span><strong>Choose an image</strong><small>PNG, JPG, or WEBP</small></span><input id="imageInput" type="file" accept="image/*" /></label>
+        <div class="control-row">
+          <label for="latentRange">Latent-space dimension</label>
+          <output id="latentValue">32</output>
+        </div>
+        <input id="latentRange" type="range" min="4" max="128" step="4" value="32" />
+        <div class="range-labels"><span>4 · More compression</span><span>128 · More detail</span></div>
+        <button id="compareBtn" class="primary full">Update reconstruction</button>
+        <p class="notice">This browser demo uses a visual approximation (pixel downsampling), not a trained neural network. Use the report section below to explain how a real autoencoder would be evaluated.</p>
+      </div>
+
+      <div class="panel preview-panel">
+        <div class="preview-heading"><div><p class="eyebrow">VISUAL COMPARISON</p><h2>Original vs reconstructed</h2></div><span class="live-dot">● Demo</span></div>
+        <div class="image-grid">
+          <div class="image-card"><div class="image-title">Original image</div><div class="image-stage"><img id="originalImage" alt="Original upload preview" /><div id="originalPlaceholder" class="placeholder"><span>▧</span><strong>Your image appears here</strong><small>Upload an image to begin</small></div></div></div>
+          <div class="image-card"><div class="image-title">Reconstructed preview</div><div class="image-stage"><canvas id="reconstructedCanvas" aria-label="Reconstructed preview"></canvas><div id="reconPlaceholder" class="placeholder"><span>◈</span><strong>Reconstruction preview</strong><small>Adjust the latent dimension</small></div></div></div>
+        </div>
+        <div class="metrics">
+          <div><small>Latent dimension</small><strong id="metricLatent">32</strong></div>
+          <div><small>Compression level</small><strong id="metricCompression">High</strong></div>
+          <div><small>Estimated detail</small><strong id="metricDetail">Balanced</strong></div>
+        </div>
+        <p class="caption">Note: The preview is illustrative. Actual reconstruction quality depends on the model, dataset, training, and loss function.</p>
+      </div>
+    </section>
+
+    <section class="panel analysis">
+      <p class="eyebrow">EXPERIMENT & ANALYSIS</p>
+      <h2>Relationship between compression and quality</h2>
+      <p>Choose different latent dimensions and observe the expected trend. Smaller dimensions retain less information; larger dimensions can preserve more detail but require a larger latent representation.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Latent dimension</th><th>Compression</th><th>Expected reconstruction quality</th><th>Typical observation</th></tr></thead>
+          <tbody>
+            <tr><td>4–8</td><td><span class="pill high">Very high</span></td><td>Low</td><td>Fine details may disappear</td></tr>
+            <tr><td>12–32</td><td><span class="pill medium">Moderate–high</span></td><td>Medium</td><td>Overall shape often remains</td></tr>
+            <tr><td>36–64</td><td><span class="pill medium">Moderate</span></td><td>Good</td><td>More edges and textures retained</td></tr>
+            <tr><td>68–128</td><td><span class="pill low">Lower</span></td><td>Very good</td><td>More detail, less compression</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="takeaway"><span>↗</span><div><strong>Key finding</strong><p>Increasing latent-space dimension generally improves reconstruction quality, while reducing the compression ratio. The best dimension balances image quality and storage needs.</p></div></div>
+    </section>
+
+    <section class="bottom-grid">
+      <article class="panel"><p class="eyebrow">METHODOLOGY</p><h2>How an autoencoder works</h2><ol class="steps"><li><strong>Preprocess</strong><p>Resize images and normalize pixel values.</p></li><li><strong>Encode</strong><p>The encoder maps an image to a compact latent vector.</p></li><li><strong>Decode</strong><p>The decoder reconstructs an image from that vector.</p></li><li><strong>Evaluate</strong><p>Compare original and reconstructed images using MSE or PSNR.</p></li></ol></article>
+      <article class="panel"><p class="eyebrow">EVALUATION</p><h2>Useful metrics</h2><div class="metric-info"><strong>MSE</strong><p>Mean Squared Error measures the average squared pixel difference. Lower MSE usually means a closer reconstruction.</p></div><div class="metric-info"><strong>PSNR</strong><p>Peak Signal-to-Noise Ratio measures reconstruction quality in decibels. Higher PSNR usually indicates better quality.</p></div><div class="metric-info"><strong>Compression ratio</strong><p>Original representation size divided by compressed representation size. A higher ratio means stronger compression.</p></div></article>
+    </section>
+  </main>
+  <footer><strong>Autoencoder Image Compression Lab</strong><span>Educational mini-project · HTML, CSS & JavaScript</span></footer>
+  <script src="script.js"></script>
+</body>
+</html>
